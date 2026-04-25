@@ -1,35 +1,34 @@
-# RAG Chatbot (단일 파일 프로덕션급 구현)
+# 🤬 The Worst UX Award ("UX Hell")
 
-본 프로젝트는 단일 파일(`rag_chatbot.py`)에 RAG(Retrieval-Augmented Generation) 시스템의 모든 핵심 컴포넌트를 모듈화하여 구현한 완성도 높은 챗봇입니다.
+이 프로젝트는 세상에서 가장 사용자 친화적이지 않고, 사람을 화나게 만드는 요소들을 모아놓은 "킹받는 서비스"입니다.
+단순한 회원가입 폼처럼 보이지만, 가입을 성공하기 위해선 당신의 극도의 인내심이 필요합니다.
 
-## 주요 특징
-- **모듈화된 설계**: 문서 처리, 임베딩, 벡터 저장, LLM 체인을 독립적인 클래스로 분리.
-- **비용 완전 무료 (로컬 모드)**: AWS 종속성 없이 로컬 환경에서 HuggingFace 모델과 FAISS를 사용하여 구동 가능.
-- **견고한 오류 처리 및 로깅**: 각 단계별 발생 가능한 예외 상황을 안전하게 처리하고 상세한 로그를 남김.
+## 🎯 킹받는 포인트 (Features)
+- **도망가는 버튼:** 마우스가 다가가면 요리조리 피하는 가입하기 버튼
+- **슬라이더 전화번호:** 숫자를 직접 입력할 수 없고, 마이크로 컨트롤로 슬라이더를 조절해 전화번호를 맞춰야 합니다.
+- **랜덤 이름 선택기:** 키보드로 이름을 칠 수 없고, 순서가 무작위로 섞인 드롭다운에서 한 글자씩 찾아야 합니다.
+- **수학적 비밀번호:** 비밀번호에 반드시 "소수 (Prime Number)"가 포함되어야 합니다.
+- **랜덤 해제 약관 동의:** 약관에 동의 체크를 해도 30% 확률로 무작위로 체크가 해제됩니다.
+- **시각적 고통:** 90년대풍 형광 하늘색 배경, 핑크색 Comic Sans 폰트, 눈이 아픈 깜빡임 애니메이션을 사용했습니다.
+- **당신의 잘못입니다:** 모든 에러 메시지는 온전히 사용자의 책임으로 돌립니다.
+- **분노 게이지 수집:** 당신의 헛클릭 수와 머무른 시간이 백엔드에 전송되어 얼마나 분노했는지 기록됩니다.
 
-## 요구 사항
-* Python 3.9 이상
+## 🛠 기술 스택
+- **Frontend:** React (Vite), Tailwind CSS, Framer Motion
+- **Backend:** Node.js (Express)
+- **Infrastructure:** Docker, Docker Compose, GitHub Actions (GitHub Pages)
 
-## 설치 가이드
-패키지 설치
-```bash
-pip install -e .
-```
-*테스트용 패키지 포함 설치:*
-```bash
-pip install -e ".[dev]"
-```
+## 🚀 로컬 실행 방법
 
-## 실행 방법 (무료 로컬 모드)
-`rag_chatbot.py`는 CLI 인터페이스를 제공하여 쉽게 테스트할 수 있습니다.
+### 백엔드 실행 (Docker 필요)
+1. Docker Desktop 또는 Docker Engine이 설치되어 있는지 확인합니다.
+2. 터미널에서 `docker-compose up --build` 명령어를 실행하여 백엔드 컨테이너를 빌드 및 실행합니다.
+3. 백엔드가 `http://localhost:5000` 에서 실행됩니다.
 
-### 1. 샘플 문서 생성
-RAG 시스템이 참고할 텍스트 파일(예: `sample.txt`)을 생성합니다.
+### 프론트엔드 실행
+1. `cd frontend` 로 이동
+2. `npm install` 로 패키지 설치
+3. `npm run dev` 명령어로 개발 서버를 띄운 후 로컬호스트로 접속
 
-### 2. 단일 질문 실행
-```bash
-python rag_chatbot.py --docs sample.txt --query "이 문서의 핵심 내용은 무엇인가요?"
-```
-
-## 시스템 구조 및 설계
-시스템 설계에 대한 자세한 내용은 [RAG_CHATBOT_SPECIFICATION.md](RAG_CHATBOT_SPECIFICATION.md)를 참고하세요.
+## 🌐 배포 (GitHub Pages)
+이 레포지토리는 GitHub Actions를 통해 `main` 브랜치에 코드가 푸시될 때 프론트엔드가 자동으로 GitHub Pages에 배포되도록 설정되어 있습니다.
