@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag_chatbot"
+version = "0.1.0"
+description = "A highly polished, production-ready single-file RAG chatbot."
+authors = [
+    {name = "Jules", email = "jules@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.10",
+    "langchain-huggingface>=0.0.1",
+    "faiss-cpu>=1.7.4",
+    "sentence-transformers>=2.2.2",
+    "transformers>=4.30.0",
+    "boto3>=1.28.0",
+    "torch>=2.0.0",
+    "tiktoken"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "mypy>=1.0",
+]
+
+[tool.setuptools]
+py-modules = ["rag_chatbot"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
