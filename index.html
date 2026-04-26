@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로컬 RAG 챗봇</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .chat-container { width: 100%; max-width: 600px; background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; height: 80vh; }
+        .header { background: #4a90e2; color: white; padding: 15px; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 15px; border-radius: 20px; max-width: 80%; line-height: 1.4; word-wrap: break-word; }
+        .user-message { align-self: flex-end; background: #e1f5fe; color: #0277bd; border-bottom-right-radius: 5px; }
+        .bot-message { align-self: flex-start; background: #f1f1f1; color: #333; border-bottom-left-radius: 5px; }
+        .input-area { display: flex; border-top: 1px solid #ddd; padding: 10px; background: #fff; }
+        .input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+        .input-area button { background: #4a90e2; color: white; border: none; padding: 10px 20px; margin-left: 10px; border-radius: 20px; cursor: pointer; transition: background 0.2s; }
+        .input-area button:hover { background: #357abd; }
+        .input-area button:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="header">로컬 RAG 챗봇</div>
+    <div class="messages" id="messages">
+        <div class="message bot-message">안녕하세요! 문서에 대해 무엇이든 물어보세요. (주의: 로컬 백엔드 서버가 실행 중이어야 합니다.)</div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="질문을 입력하세요..." onkeypress="handleKeyPress(event)">
+        <button id="sendBtn" onclick="sendMessage()">전송</button>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8000/chat';
+
+    function addMessage(text, isUser) {
+        const messagesDiv = document.getElementById('messages');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        msgDiv.textContent = text;
+        messagesDiv.appendChild(msgDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('userInput');
+        const text = input.value.trim();
+        const btn = document.getElementById('sendBtn');
+
+        if (!text) return;
+
+        // UI 업데이트
+        addMessage(text, true);
+        input.value = '';
+        input.disabled = true;
+        btn.disabled = true;
+
+        // "타이핑 중..." 메시지 임시 추가
+        const messagesDiv = document.getElementById('messages');
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'message bot-message';
+        loadingDiv.id = 'loading';
+        loadingDiv.textContent = '답변 생성 중...';
+        messagesDiv.appendChild(loadingDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: text })
+            });
+
+            const data = await response.json();
+            document.getElementById('loading').remove();
+
+            if (response.ok) {
+                addMessage(data.answer, false);
+            } else {
+                addMessage(`오류 발생: ${data.detail || '알 수 없는 오류'}`, false);
+            }
+        } catch (error) {
+            document.getElementById('loading').remove();
+            addMessage('네트워크 오류: 백엔드 서버가 실행 중인지 확인하세요. (http://localhost:8000)', false);
+            console.error('Error:', error);
+        } finally {
+            input.disabled = false;
+            btn.disabled = false;
+            input.focus();
+        }
+    }
+
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    }
+</script>
+
+</body>
+</html>

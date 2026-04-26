@@ -33,3 +33,22 @@ python rag_chatbot.py --docs sample.txt --query "이 문서의 핵심 내용은 
 
 ## 시스템 구조 및 설계
 시스템 설계에 대한 자세한 내용은 [RAG_CHATBOT_SPECIFICATION.md](RAG_CHATBOT_SPECIFICATION.md)를 참고하세요.
+
+
+## 웹 프론트엔드 연동 가이드
+
+기존 CLI 환경 외에도, 웹 UI를 통해 RAG 챗봇을 사용할 수 있습니다.
+
+### 1. 백엔드 서버 실행
+FastAPI를 사용하여 백엔드 서버를 띄워야 합니다. `fastapi`와 `uvicorn` 패키지가 필요합니다.
+
+```bash
+# 백엔드 서버 실행 (포트 8000)
+python app.py
+```
+
+*참고: 백엔드 서버는 `RAG_DOC_PATH` 환경변수를 통해 문서 경로를 지정할 수 있으며, 기본값은 `sample.txt`입니다. 처음 실행 시 필요한 모델(임베딩, LLM)을 다운로드하므로 다소 시간이 걸릴 수 있습니다.*
+
+### 2. 프론트엔드 접속
+제공된 `index.html` 파일을 웹 브라우저(크롬, 사파리 등)에서 직접 열어주세요.
+로컬 백엔드 서버(http://localhost:8000)와 자동으로 통신하여 채팅 UI를 제공합니다. GitHub Pages 등에 호스팅할 경우 백엔드 주소를 맞게 수정해야 할 수 있습니다.
