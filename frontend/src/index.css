@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Comic Sans MS';
+  src: local('Comic Sans MS');
+}
+
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background-color: #00ffff; /* 눈아픈 형광 하늘색 */
+  color: #ff00ff; /* 텍스트는 형광 핑크 */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* 90년대 스러운 링크 스타일 */
+a {
+  color: #0000ff;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+}
+
+/* 킹받는 버튼 기본 스타일 */
+button {
+  background: #ffff00;
+  color: #ff0000;
+  border: 3px dashed #00ff00;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: help;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  box-shadow: 5px 5px 0px #000;
+}
+
+button:active {
+  transform: scale(0.9);
+  background: #ff0000;
+  color: #ffff00;
+}
+
+/* 90년대풍 폼 요소 */
+input, select {
+  background: #cccccc;
+  border: 2px inset #ffffff;
+  padding: 5px;
+  font-family: 'Times New Roman', Times, serif;
+  color: #000;
+}
+
+/* 눈아픈 깜빡임 애니메이션 */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blink {
+  animation: blink 0.5s infinite;
+}
+
+/* 킹받는 컨테이너 */
+.container {
+  background: url('https://www.transparenttextures.com/patterns/cubes.png'), linear-gradient(45deg, #ff00ff, #00ffff);
+  border: 10px ridge #ff9900;
+  padding: 30px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* 텍스트 드래그 방지 및 짜증유발 */
+.no-select {
+  user-select: none;
+}
